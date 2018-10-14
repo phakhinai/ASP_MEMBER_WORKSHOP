@@ -18,7 +18,7 @@ namespace ASP_MEMBER_WORKSHOP.Controllers
         protected AccountController()
         {
             this.Account = new AccountService();
-            this.AccessToken = new DbAccessTokenService();
+            this.AccessToken = new JwtAccessTokenService();
         }
 
         // การลงทะเบียน

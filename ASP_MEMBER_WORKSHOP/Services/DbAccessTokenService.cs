@@ -33,5 +33,20 @@ namespace ASP_MEMBER_WORKSHOP.Services
                 throw ex.GetErrorException();
             }
         }
+
+        public Member VerifyAccessToken(string accessToken)
+        {
+            try
+            {
+                var accessTokenItem = this.db.AccessTokens.SingleOrDefault(item => item.token.Equals(accessToken));
+                if (accessTokenItem == null) return null;
+                if (accessTokenItem.exprise < DateTime.Now) return null;
+                return accessTokenItem.Member;
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }

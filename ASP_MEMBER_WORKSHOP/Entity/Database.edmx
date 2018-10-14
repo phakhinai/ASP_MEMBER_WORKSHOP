@@ -25,6 +25,7 @@
           <Property Name="password" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="position" Type="nvarchar" MaxLength="50" />
           <Property Name="image" Type="varbinary(max)" />
+          <Property Name="image_type" Type="nvarchar" MaxLength="50" />
           <Property Name="role" Type="smallint" Nullable="false" />
           <Property Name="created" Type="datetime" Nullable="false" />
           <Property Name="updated" Type="datetime" Nullable="false" />
@@ -68,6 +69,7 @@
           <Property Name="created" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="updated" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="AccessTokens" Relationship="DbModel.FK_AccessTokens_Members" FromRole="Member" ToRole="AccessToken" />
+          <Property Name="image_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityContainer Name="DbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Members" EntityType="Self.Member" />
@@ -113,6 +115,7 @@
           <EntitySetMapping Name="Members">
             <EntityTypeMapping TypeName="DbModel.Member">
               <MappingFragment StoreEntitySet="Members">
+                <ScalarProperty Name="image_type" ColumnName="image_type" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="firstname" ColumnName="firstname" />
                 <ScalarProperty Name="lastname" ColumnName="lastname" />

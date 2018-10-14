@@ -235,14 +235,18 @@
     </Compile>
     <Compile Include="Interfaces\IAccessTokenService.cs" />
     <Compile Include="Interfaces\IAccountService.cs" />
+    <Compile Include="Interfaces\IMemberService.cs" />
     <Compile Include="Models\ExtensionModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\MemberModel.cs" />
     <Compile Include="Models\PasswordHashModel.cs" />
+    <Compile Include="Models\ProfileModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AccountService.cs" />
     <Compile Include="Services\DbAccessTokenService.cs" />
     <Compile Include="Services\JwtAccessTokenService.cs" />
+    <Compile Include="Services\MemberService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

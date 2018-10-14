@@ -1,4 +1,5 @@
 ﻿using ASP_MEMBER_WORKSHOP.Entity;
+using ASP_MEMBER_WORKSHOP.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace ASP_MEMBER_WORKSHOP.Interfaces
 {
-    interface IAccessTokenService
+    interface IMemberService
     {
-        string GenerateAccessToken(string email, int minute = 60);
+        IEnumerable<Member> MemberItems { get; }
 
-        Member VerifyAccessToken(string accessToken);
+        void UpdateProfile(string email, ProfileModel model);
     }
 }
