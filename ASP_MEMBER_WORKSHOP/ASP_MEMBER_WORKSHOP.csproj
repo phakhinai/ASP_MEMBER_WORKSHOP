@@ -236,6 +236,7 @@
     <Compile Include="Interfaces\IAccessTokenService.cs" />
     <Compile Include="Interfaces\IAccountService.cs" />
     <Compile Include="Interfaces\IMemberService.cs" />
+    <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\ExtensionModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\MemberModel.cs" />

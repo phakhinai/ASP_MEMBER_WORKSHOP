@@ -62,5 +62,16 @@ namespace ASP_MEMBER_WORKSHOP.Controllers
             }
             return BadRequest(ModelState.GetErrorModelState());
         }
+
+        // เปลี่ยนรหัสผ่าน
+        [Route("api/member/change-password")]
+        public IHttpActionResult PostChangePassword([FromBody] ChangePasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                return Json(model);
+            }
+            return BadRequest(ModelState.GetErrorModelState());
+        }
     }
 }
