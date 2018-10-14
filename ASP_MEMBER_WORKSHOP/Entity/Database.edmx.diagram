@@ -6,6 +6,8 @@
     <edmx:Diagrams>
       <Diagram DiagramId="d5d9693d5b3c4b5db647fd6aafe5187a" Name="Diagram1">
         <EntityTypeShape EntityType="DbModel.Member" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DbModel.AccessToken" Width="1.5" PointX="3" PointY="1.375" />
+        <AssociationConnector Association="DbModel.FK_AccessTokens_Members" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

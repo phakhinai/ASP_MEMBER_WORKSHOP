@@ -13,10 +13,12 @@ namespace ASP_MEMBER_WORKSHOP.Controllers
     public class AccountController : ApiController
     {
         private IAccountService Account;
+        private IAccessTokenService AccessToken;
 
         protected AccountController()
         {
             this.Account = new AccountService();
+            this.AccessToken = new DbAccessTokenService();
         }
 
         // การลงทะเบียน
@@ -43,13 +45,30 @@ namespace ASP_MEMBER_WORKSHOP.Controllers
 
         // เข้าสู่ระบบ
         [Route("api/account/login")]
-        public IHttpActionResult PostLogin([FromBody] LoginModel model)
+        public AccessTokenModel PostLogin([FromBody] LoginModel model)
         {
             if (ModelState.IsValid)
             {
-                return Json(model);
+                try
+                {
+                    if (this.Account.Login(model))
+                    {
+                        return new AccessTokenModel
+                        {
+                            accessToken = this.AccessToken.GenerateAccessToken(model.email)
+                        };
+                    }
+                    throw new Exception("Username or Password is invalid.");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("Exception", ex.Message);
+                }
             }
-            return BadRequest(ModelState.GetErrorModelState());  
+            throw new HttpResponseException(Request.CreateResponse(
+                HttpStatusCode.BadRequest,
+                new { Message = ModelState.GetErrorModelState() }
+            ));
         }
     }
 }

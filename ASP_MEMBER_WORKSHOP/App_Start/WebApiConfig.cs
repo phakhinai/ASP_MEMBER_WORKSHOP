@@ -13,6 +13,9 @@ namespace ASP_MEMBER_WORKSHOP
             // Web API configuration and services
             config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
 
+            // Add Handler
+            config.MessageHandlers.Add(new AuthenticationHandler());
+
             // Web API routes
             config.MapHttpAttributeRoutes();
 

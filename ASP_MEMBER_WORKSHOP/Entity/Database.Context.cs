@@ -26,5 +26,6 @@ namespace ASP_MEMBER_WORKSHOP.Entity
         }
     
         public virtual DbSet<Member> Members { get; set; }
+        public virtual DbSet<AccessToken> AccessTokens { get; set; }
     }
 }

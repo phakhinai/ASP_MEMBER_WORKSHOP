@@ -4,7 +4,16 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AccessTokens">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="token" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="exprise" Type="datetime" Nullable="false" />
+          <Property Name="memberId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Members">
           <Key>
             <PropertyRef Name="Id" />
@@ -13,18 +22,34 @@
           <Property Name="firstname" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="lastname" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="email" Type="nvarchar" MaxLength="80" Nullable="false" />
-          <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="64" Nullable="false" />
           <Property Name="position" Type="nvarchar" MaxLength="50" />
           <Property Name="image" Type="varbinary(max)" />
           <Property Name="role" Type="smallint" Nullable="false" />
           <Property Name="created" Type="datetime" Nullable="false" />
           <Property Name="updated" Type="datetime" Nullable="false" />
         </EntityType>
+        <Association Name="FK_AccessTokens_Members">
+          <End Role="Members" Type="Self.Members" Multiplicity="1" />
+          <End Role="AccessTokens" Type="Self.AccessTokens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Members">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AccessTokens">
+              <PropertyRef Name="memberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="DbModelStoreContainer">
+          <EntitySet Name="AccessTokens" EntityType="Self.AccessTokens" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Members" EntityType="Self.Members" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AccessTokens_Members" Association="Self.FK_AccessTokens_Members">
+            <End Role="Members" EntitySet="Members" />
+            <End Role="AccessTokens" EntitySet="AccessTokens" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -36,21 +61,49 @@
           <Property Name="firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="email" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="position" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="image" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="role" Type="DbModel.RoleAccount" Nullable="false" />
           <Property Name="created" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="updated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="AccessTokens" Relationship="DbModel.FK_AccessTokens_Members" FromRole="Member" ToRole="AccessToken" />
         </EntityType>
         <EntityContainer Name="DbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Members" EntityType="Self.Member" />
+          <EntitySet Name="AccessTokens" EntityType="DbModel.AccessToken" />
+          <AssociationSet Name="FK_AccessTokens_Members" Association="DbModel.FK_AccessTokens_Members">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="AccessToken" EntitySet="AccessTokens" />
+          </AssociationSet>
         </EntityContainer>
         <EnumType Name="RoleAccount" UnderlyingType="Int16">
           <Member Name="Member" Value="1" />
           <Member Name="Employee" Value="2" />
           <Member Name="Admin" Value="3" />
         </EnumType>
+        <EntityType Name="AccessToken">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="token" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="exprise" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="memberId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Member" Relationship="DbModel.FK_AccessTokens_Members" FromRole="AccessToken" ToRole="Member" />
+        </EntityType>
+        <Association Name="FK_AccessTokens_Members">
+          <End Type="DbModel.Member" Role="Member" Multiplicity="1" />
+          <End Type="DbModel.AccessToken" Role="AccessToken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AccessToken">
+              <PropertyRef Name="memberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -70,6 +123,16 @@
                 <ScalarProperty Name="role" ColumnName="role" />
                 <ScalarProperty Name="created" ColumnName="created" />
                 <ScalarProperty Name="updated" ColumnName="updated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccessTokens">
+            <EntityTypeMapping TypeName="DbModel.AccessToken">
+              <MappingFragment StoreEntitySet="AccessTokens">
+                <ScalarProperty Name="memberId" ColumnName="memberId" />
+                <ScalarProperty Name="exprise" ColumnName="exprise" />
+                <ScalarProperty Name="token" ColumnName="token" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

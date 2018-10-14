@@ -17,7 +17,11 @@ namespace ASP_MEMBER_WORKSHOP.Services
         {
             try
             {
-                var memberItem = this.db.Members.SingleOrDefault();
+                var memberItem = this.db.Members.SingleOrDefault(m => m.email.Equals(model.email));
+                if (memberItem != null)
+                {
+                    return PasswordHashModel.Verify(model.password, memberItem.password);
+                }
                 return false;
             }
             catch (Exception ex)

@@ -14,6 +14,12 @@ namespace ASP_MEMBER_WORKSHOP.Entity
     
     public partial class Member
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Member()
+        {
+            this.AccessTokens = new HashSet<AccessToken>();
+        }
+    
         public int Id { get; set; }
         public string firstname { get; set; }
         public string lastname { get; set; }
@@ -24,5 +30,8 @@ namespace ASP_MEMBER_WORKSHOP.Entity
         public RoleAccount role { get; set; }
         public System.DateTime created { get; set; }
         public System.DateTime updated { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccessToken> AccessTokens { get; set; }
     }
 }
