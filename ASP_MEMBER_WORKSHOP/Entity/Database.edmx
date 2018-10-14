@@ -39,13 +39,18 @@
           <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="position" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="image" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="role" Type="Int16" Nullable="false" />
+          <Property Name="role" Type="DbModel.RoleAccount" Nullable="false" />
           <Property Name="created" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="updated" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityContainer Name="DbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Members" EntityType="Self.Member" />
         </EntityContainer>
+        <EnumType Name="RoleAccount" UnderlyingType="Int16">
+          <Member Name="Member" Value="1" />
+          <Member Name="Employee" Value="2" />
+          <Member Name="Admin" Value="3" />
+        </EnumType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

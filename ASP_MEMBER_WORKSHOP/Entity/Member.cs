@@ -21,7 +21,7 @@ namespace ASP_MEMBER_WORKSHOP.Entity
         public string password { get; set; }
         public string position { get; set; }
         public byte[] image { get; set; }
-        public short role { get; set; }
+        public RoleAccount role { get; set; }
         public System.DateTime created { get; set; }
         public System.DateTime updated { get; set; }
     }

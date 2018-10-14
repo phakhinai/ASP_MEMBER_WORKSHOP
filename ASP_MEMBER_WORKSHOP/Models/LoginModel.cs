@@ -3,18 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using System.Web.Http.ModelBinding;
 
 namespace ASP_MEMBER_WORKSHOP.Models
 {
-    public class RegisterModel
+    public class LoginModel
     {
-        [Required]
-        public string firstname { get; set; }
-
-        [Required]
-        public string lastname { get; set; }
-
         [Required]
         [EmailAddress]
         public string email { get; set; }
@@ -22,8 +15,6 @@ namespace ASP_MEMBER_WORKSHOP.Models
         [Required]
         public string password { get; set; }
 
-        [Required]
-        [Compare("password")]
-        public string cpassword { get; set; }
+        public bool remember { get; set; }
     }
 }
