@@ -12,6 +12,10 @@ namespace ASP_MEMBER_WORKSHOP.Interfaces
     {
         IEnumerable<Member> MemberItems { get; }
 
+        GetMemberModel GetMembers(MemberFilterOptions filters);
+
         void UpdateProfile(string email, ProfileModel model);
+
+        void ChangePassword(string email, ChangePasswordModel model);
     }
 }

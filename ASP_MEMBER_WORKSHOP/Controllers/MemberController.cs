@@ -69,9 +69,71 @@ namespace ASP_MEMBER_WORKSHOP.Controllers
         {
             if (ModelState.IsValid)
             {
-                return Json(model);
+                try
+                {
+                    this.memberService.ChangePassword(User.Identity.Name, model);
+                    return Ok(new { Message = "Password has changed." });
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("Exception", ex.Message);
+                }
             }
             return BadRequest(ModelState.GetErrorModelState());
+        }
+
+        // แสดงรายการสมาชิกทั้งหมด
+        public GetMemberModel GetMembers([FromUri] MemberFilterOptions filters)
+        {
+            if (ModelState.IsValid)
+            {
+                return this.memberService.GetMembers(filters);
+            }
+            throw new HttpResponseException(Request.CreateResponse(
+                HttpStatusCode.BadRequest,
+                new { Message = ModelState.GetErrorModelState() }
+            ));
+        }
+
+        // เพิ่มข้อมูลสมาชิก (จำลอง)
+        [Route("api/member/generate")]
+        public IHttpActionResult PostGenerateMember()
+        {
+            try
+            {
+                var memberItems = new List<Member>();
+                var password = PasswordHashModel.Hash("123456");
+                var positions = new string[] { "Frontend Developer", "Backend Developer" };
+                var roles = new RoleAccount[] { RoleAccount.Member, RoleAccount.Employee, RoleAccount.Admin };
+                var random = new Random();
+
+                for (var index = 1; index <= 98; index++)
+                {
+                    memberItems.Add(new Member
+                    {
+                        email = $"mail-{index}@mail.com",
+                        password = password,
+                        firstname = $"Firstname {index}",
+                        lastname = $"Lastname {index}",
+                        position = positions[random.Next(0, 2)],
+                        role = roles[random.Next(0, 3)],
+                        created = DateTime.Now,
+                        updated = DateTime.Now
+                    });
+                }
+
+                var db = new DbEntities();
+                db.Members.AddRange(memberItems);
+                db.SaveChanges();
+
+                return Ok("Generate successful.");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("Exceptrion", ex.Message);
+                return BadRequest(ModelState.GetErrorModelState());
+            }
+
         }
     }
 }

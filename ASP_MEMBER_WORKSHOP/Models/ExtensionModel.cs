@@ -11,7 +11,10 @@ namespace ASP_MEMBER_WORKSHOP.Models
         // ปรับแต่งค่า Error ของ ModelSate ใหม่
         public static string GetErrorModelState(this ModelStateDictionary modelState)
         {
-            var modelValue = modelState.Values.Select(value => value.Errors).FirstOrDefault();
+            var modelValue = modelState.Values
+                .Select(value => value.Errors)
+                .Where(value => value.Count() > 0)
+                .FirstOrDefault();
             if (modelValue == null) return null;
             return modelValue[0].ErrorMessage;
         }

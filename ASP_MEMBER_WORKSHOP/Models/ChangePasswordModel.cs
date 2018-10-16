@@ -10,8 +10,10 @@ namespace ASP_MEMBER_WORKSHOP.Models
     {
         [Required]
         public string old_pass { get; set; }
+
         [Required]
         public string new_pass { get; set; }
+
         [Required]
         [Compare("new_pass")]
         public string cnew_pass { get; set; }

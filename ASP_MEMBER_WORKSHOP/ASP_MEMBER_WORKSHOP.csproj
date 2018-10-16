@@ -238,6 +238,7 @@
     <Compile Include="Interfaces\IMemberService.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\ExtensionModel.cs" />
+    <Compile Include="Models\GetMemberModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\MemberModel.cs" />
     <Compile Include="Models\PasswordHashModel.cs" />
