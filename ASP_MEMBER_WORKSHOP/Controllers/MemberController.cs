@@ -31,7 +31,7 @@ namespace ASP_MEMBER_WORKSHOP.Controllers
             if (member == null) return null;
             return new MemberModel
             {
-                Id = member.Id,
+                id = member.id,
                 firstname = member.firstname,
                 lastname = member.lastname,
                 email = member.email,
@@ -93,6 +93,78 @@ namespace ASP_MEMBER_WORKSHOP.Controllers
                 HttpStatusCode.BadRequest,
                 new { Message = ModelState.GetErrorModelState() }
             ));
+        }
+
+        // แสดงรายการสมาชิกคนเดียวจาก id
+        public MemberModel GetMember(int id)
+        {
+            var memberItem = this.memberService.MemberItems
+                .Select(m => new MemberModel
+                {
+                    id = m.id,
+                    firstname = m.firstname,
+                    lastname = m.lastname,
+                    email = m.email,
+                    position = m.position,
+                    image_type = m.image_type,
+                    image_byte = m.image,
+                    role = m.role,
+                    created = m.created,
+                    updated = m.updated
+                })
+                .SingleOrDefault(m => m.id == id);
+            return memberItem;
+        }
+
+        // เพิ่มข้อมูลสมาชิกใหม่
+        public IHttpActionResult PostCreateMember([FromBody] CreateMemberModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    this.memberService.CreateMember(model);
+                    return Ok("Create successful.");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("Exception", ex.Message);
+                }
+            }
+            return BadRequest(ModelState.GetErrorModelState());
+        }
+
+        // ลบข้อมูลสมาชิก
+        public IHttpActionResult DeleteMember(int id)
+        {
+            try
+            {
+                this.memberService.DeleteMember(id);
+                return Ok("Deleted successful.");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("Exception", ex.Message);
+            }
+            return BadRequest(ModelState.GetErrorModelState());
+        }
+
+        // แก้ไขข้อมูลสมาชิก
+        public IHttpActionResult PutUpdateMember(int id, [FromBody] UpdateMemberModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    this.memberService.UpdateMember(id, model);
+                    return Ok("Update successful.");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("Exception", ex.Message);
+                }
+            }
+            return BadRequest(ModelState.GetErrorModelState());
         }
 
         // เพิ่มข้อมูลสมาชิก (จำลอง)

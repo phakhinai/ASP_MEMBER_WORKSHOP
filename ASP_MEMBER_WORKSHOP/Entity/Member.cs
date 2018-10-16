@@ -20,7 +20,7 @@ namespace ASP_MEMBER_WORKSHOP.Entity
             this.AccessTokens = new HashSet<AccessToken>();
         }
     
-        public int Id { get; set; }
+        public int id { get; set; }
         public string firstname { get; set; }
         public string lastname { get; set; }
         public string email { get; set; }

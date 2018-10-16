@@ -17,5 +17,11 @@ namespace ASP_MEMBER_WORKSHOP.Interfaces
         void UpdateProfile(string email, ProfileModel model);
 
         void ChangePassword(string email, ChangePasswordModel model);
+
+        void CreateMember(CreateMemberModel model);
+
+        void DeleteMember(int id);
+
+        void UpdateMember(int id, UpdateMemberModel model);
     }
 }

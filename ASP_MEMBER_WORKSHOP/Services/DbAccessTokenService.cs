@@ -22,7 +22,7 @@ namespace ASP_MEMBER_WORKSHOP.Services
                 {
                     token = Guid.NewGuid().ToString(),
                     exprise = DateTime.Now.AddMinutes(minute),
-                    memberId = memberItem.Id
+                    memberId = memberItem.id
                 };
                 this.db.AccessTokens.Add(accessTokenCreate);
                 this.db.SaveChanges();
